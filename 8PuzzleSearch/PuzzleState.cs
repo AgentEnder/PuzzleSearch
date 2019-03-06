@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _8PuzzleSearch
 {
-    class PuzzleState
+    class PuzzleState : IEquatable<PuzzleState>
     {
         private int[,] data = new int[3, 3];
         private int hole_x = 1;
@@ -15,6 +15,8 @@ namespace _8PuzzleSearch
         public static int[,] GoalState = { { 1,2,3 },
                                            { 8,0,4 },
                                            { 7,6,5 } };
+
+        public int[,] Data { get => data;  }
 
         public enum MOVE { UP, DOWN, LEFT, RIGHT };
 
@@ -37,6 +39,11 @@ namespace _8PuzzleSearch
                     if (containsFlags[num])
                     {
                         throw new ArgumentException("Each value must be used only once!");
+                    }
+                    if (num == 0)
+                    {
+                        hole_x = i;
+                        hole_y = j;
                     }
                     containsFlags[num] = true;
                 }
@@ -78,19 +85,20 @@ namespace _8PuzzleSearch
                 case MOVE.LEFT:
                     hole_x = old.hole_x + 1;  //hole moves right
                     hole_y = old.hole_y;
-                    data[hole_x, old.hole_y] = old.data[hole_x, hole_y];
+                    data[old.hole_x, hole_y] = old.data[hole_x, hole_y];
                     break;
                 case MOVE.RIGHT:
                     hole_x = old.hole_x - 1;  //hole moves left
                     hole_y = old.hole_y;
-                    data[hole_x, old.hole_y] = old.data[hole_x, hole_y];
+                    data[old.hole_x, hole_y] = old.data[hole_x, hole_y];
                     break;
                 default:
                     break;
             }
+            data[hole_x, hole_y] = 0;
         }
 
-        List<MOVE> getValidMoves()
+        public List<MOVE> getValidMoves()
         {
             List<MOVE> moves = new List<MOVE>();
 
@@ -106,7 +114,7 @@ namespace _8PuzzleSearch
             return moves;
         }
 
-        bool getSolved()
+        public bool getSolved()
         {
             for (int i = 0; i < 3; i++)
             {
@@ -121,5 +129,20 @@ namespace _8PuzzleSearch
             return true;
         }
 
+        public void PrintState()
+        {
+            Console.WriteLine("Puzzle State");
+            Console.WriteLine($"Hole at {hole_x},{hole_y}");
+            Console.WriteLine($"{data[0, 0]},{data[0, 1]},{data[0, 2]}");
+            Console.WriteLine($"{data[1, 0]},{data[1, 1]},{data[1, 2]}");
+            Console.WriteLine($"{data[2, 0]},{data[2, 1]},{data[2, 2]}");
+        }
+
+        public bool Equals(PuzzleState other)
+        {
+            return  data.Rank == other.data.Rank &&
+                    Enumerable.Range(0, data.Rank).All(dimension => data.GetLength(dimension) == other.data.GetLength(dimension)) &&
+                    data.Cast<int>().SequenceEqual(other.data.Cast<int>());
+        }
     }
 }
