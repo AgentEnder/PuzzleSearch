@@ -12,11 +12,15 @@ namespace _8PuzzleSearch
         private int hole_x = 1;
         private int hole_y = 1;
 
+        private List<PuzzleState> path = new List<PuzzleState>();
+        public List<PuzzleState> Path { get => path; }
+
         public static int[,] GoalState = { { 1,2,3 },
                                            { 8,0,4 },
                                            { 7,6,5 } };
 
         public int[,] Data { get => data;  }
+        
 
         public enum MOVE { UP, DOWN, LEFT, RIGHT };
 
@@ -63,6 +67,8 @@ namespace _8PuzzleSearch
 
         public PuzzleState(PuzzleState old, MOVE move)
         {
+            path = new List<PuzzleState>(old.path);
+            path.Add(old);
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)

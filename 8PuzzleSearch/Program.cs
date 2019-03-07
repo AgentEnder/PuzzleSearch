@@ -18,9 +18,15 @@ namespace _8PuzzleSearch
             });
 
             
-            Searcher searcher = new Searcher(init, new BFSHeuristic());
+            Searcher searcher = new Searcher(init, new IncorrectHeurisic());
             searcher.Solve();
+            foreach (PuzzleState step in searcher.Sln.Path)
+            {
+                step.PrintState();
+            }
+            searcher.Sln.PrintState();
             Console.WriteLine($"Solution found in {searcher.NodesExpanded} steps");
+            Console.WriteLine($"Solution path is at depth {searcher.Sln.Path.Count + 1}");
         }
     }
 }

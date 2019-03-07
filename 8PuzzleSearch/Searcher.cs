@@ -11,6 +11,8 @@ namespace _8PuzzleSearch
         IHeuristic h;
 
         List<Tuple<PuzzleState, int>> pqueue;
+        PuzzleState sln;
+        public PuzzleState Sln { get => sln; }
         int nodesExpanded = 0;
 
 
@@ -34,9 +36,10 @@ namespace _8PuzzleSearch
             while (pqueue.Count > 0)
             {
                 state = pqueue[0];
-                state.Item1.PrintState();
+                //state.Item1.PrintState();
                 if (state.Item1.getSolved())
                 {
+                    sln = state.Item1;
                     return true;
                 }
                 nodesExpanded++;
