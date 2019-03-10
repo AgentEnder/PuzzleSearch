@@ -50,7 +50,7 @@ namespace _8PuzzleSearch
                     PuzzleState moved = new PuzzleState(state.Item1, move);
                     if (!explored.Contains(moved))
                     {
-                        pqueue.Add(new Tuple<PuzzleState, int>(moved, h.Score(moved)));
+                        pqueue.Add(new Tuple<PuzzleState, int>(moved, h.Score(moved)+moved.Path.Count));
                     }
                 }
                 pqueue = pqueue.OrderBy(s => s.Item2).ToList();
