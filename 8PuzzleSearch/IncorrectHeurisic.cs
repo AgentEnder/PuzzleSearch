@@ -15,7 +15,7 @@ namespace _8PuzzleSearch
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (state.Data[i,j] != PuzzleState.GoalState[i,j])
+                    if (state.Data[i,j] != PuzzleState.GoalState[i,j]) //Item is in wrong spot
                     {
                         s += 1;
                     }

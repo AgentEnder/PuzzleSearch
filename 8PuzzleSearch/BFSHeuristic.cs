@@ -8,7 +8,7 @@ namespace _8PuzzleSearch
 {
     class BFSHeuristic : IHeuristic
     {
-        public int Score(PuzzleState state)
+        public int Score(PuzzleState state) //Depth is solely based on the depth, return 0
         {
             return 0;
         }

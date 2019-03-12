@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace _8PuzzleSearch
 {
-    interface IHeuristic
+    interface IHeuristic //Use an interface since a heuristic is only a function, allows for polymorphic code
     {
-        int Score(PuzzleState state);
+        int Score(PuzzleState state); //returns score of current puzzlestate
     }
 }
